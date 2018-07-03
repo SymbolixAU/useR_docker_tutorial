@@ -1,0 +1,88 @@
+.remark-code, .remark-inline-code {
+    font-family: 'Source Code Pro', 'Lucida Console', Monaco, monospace; }
+
+h1, h2, h3 {
+  font-family: 'Yanone Kaffeesatz';
+  font-weight: normal;
+}
+
+.inverse { background-color: #001F3F;}
+/*.inverse h1, .inverse h2{ color: #80bfff;}*/
+.inverse > .accent{ color: #80bfff; }
+
+
+
+body {
+    font-family: 'Droid Serif', 'Palatino Linotype', 'Book Antiqua', Palatino, 'Microsoft YaHei', 'Songti SC', serif; }
+
+
+
+/* Image sizes */
+.image-50 img {
+  width: 50%;
+  margin: auto;
+  vertical-align: auto;
+}
+
+.image-90 img {
+  width: 90%;
+  margin: auto;
+}
+
+
+.myrow {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create four equal columns that sits next to each other */
+.mycolumn {
+  flex: 50%;
+  max-width: 50%;
+  padding: 0 4px;
+}
+
+.mycolumn img {
+  margin-top: 8px;
+  vertical-align: middle;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .mycolumn {
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .mycolumn {
+    flex: 100%;
+    max-width: 100%;
+  }
+}
+
+/* Two-column */
+.pull-left {
+	float: left;
+	width: 47%;
+}
+.pull-right {
+	float: right;
+	width: 47%;
+}
+
+
+/* faded text*/
+.fade { color: lightgray; }
+
+/* smaller code
+.remark-code, .remark-inline-code {
+  font-family: 'Source Code Pro',
+  'Lucida Console', Monaco, monospace;
+  font-size: 75%;
+}
+*/
+
