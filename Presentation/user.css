@@ -1,22 +1,7 @@
-.remark-code, .remark-inline-code {
-    font-family: 'Source Code Pro', 'Lucida Console', Monaco, monospace; }
 
-h1, h2, h3 {
-  font-family: 'Yanone Kaffeesatz';
-  font-weight: normal;
+.roomy p {
+	padding-bottom: 1.1em;
 }
-
-.inverse { background-color: #001F3F;}
-/*.inverse h1, .inverse h2{ color: #80bfff;}*/
-.inverse > .accent{ color: #80bfff; }
-
-
-
-body {
-    font-family: 'Droid Serif', 'Palatino Linotype', 'Book Antiqua', Palatino, 'Microsoft YaHei', 'Songti SC', serif; }
-
-
-
 /* Image sizes */
 .image-50 img {
   width: 50%;
@@ -26,7 +11,9 @@ body {
 
 .image-90 img {
   width: 90%;
+  height: 70%;
   margin: auto;
+  vertical-align: auto;
 }
 
 
@@ -64,15 +51,6 @@ body {
   }
 }
 
-/* Two-column */
-.pull-left {
-	float: left;
-	width: 47%;
-}
-.pull-right {
-	float: right;
-	width: 47%;
-}
 
 
 /* faded text*/
