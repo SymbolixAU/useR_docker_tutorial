@@ -1,4 +1,4 @@
-
+.small{ font-size: 80%;}
 .roomy p {
 	padding-bottom: 1.1em;
 }
@@ -17,50 +17,29 @@
 }
 
 
-.myrow {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0 4px;
-}
-
-/* Create four equal columns that sits next to each other */
-.mycolumn {
-  flex: 50%;
-  max-width: 50%;
-  padding: 0 4px;
-}
-
-.mycolumn img {
-  margin-top: 8px;
-  vertical-align: middle;
-}
-
-/* Responsive layout - makes a two column-layout instead of four columns */
-@media screen and (max-width: 800px) {
-  .mycolumn {
-    flex: 50%;
-    max-width: 50%;
-  }
-}
-
-/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-  .mycolumn {
-    flex: 100%;
-    max-width: 100%;
-  }
-}
-
-
 
 /* faded text*/
 .fade { color: lightgray; }
 
-/* smaller code
-.remark-code, .remark-inline-code {
-  font-family: 'Source Code Pro',
-  'Lucida Console', Monaco, monospace;
-  font-size: 75%;
+.footer {
+  background-color: #272822;
+  color: #F7F8FA;
+  font-size: 10pt;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  height: 20px;
 }
-*/
 
+.remark-slide-number {
+  font-size: 10pt;
+  bottom: 0;
+  right: 0;
+  position: fixed;
+  margin-bottom: 2px;
+  margin-right: 10px;
+  color: #F7F8FA;; /* white */
+  opacity: 1; /* default: 0.5 */
+}
