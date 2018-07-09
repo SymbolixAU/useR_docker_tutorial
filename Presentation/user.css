@@ -3,6 +3,13 @@
 	padding-bottom: 1.1em;
 }
 /* Image sizes */
+.image-20 img {
+  width: 20%;
+  margin: auto;
+  vertical-align: auto;
+}
+
+
 .image-50 img {
   width: 50%;
   margin: auto;

@@ -25,7 +25,7 @@ class: center, middle, inverse, title-slide
 
 layout: true
 
-.footer[www.symbolix.com.au   ]
+.footer[Elizabeth Stark  &amp;emsp;&amp;emsp;&amp;emsp; @SymbolixAU  &amp;emsp;&amp;emsp;&amp;emsp; www.symbolix.com.au  ]
 
 &lt;!-- &lt;div class="my-footer"&gt;&lt;span&gt;xaringan power     --&gt;
 &lt;!-- &amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; --&gt;
@@ -43,7 +43,7 @@ layout: true
 
 * **10:30 - 11:00** :  ☕☕
 
-* **11:00 - 12:30** : More yarns and hand-on code time
+* **11:00 - 12:30** : More examples and hands-on code time
 
 Useful to git clone/fork or download:
 
@@ -83,20 +83,21 @@ background-size: contain
     + tools for other teams
   
 * We work in
-	+ Transport &amp; urban networks
-	+ Environmental management
-	+ Better organisations
+  + Transport &amp; urban networks
+  + Environmental management
+  + Better organisations
 
 * R and open source
-	+ `googleway`
-	+ `googlePolylines`
-	+ `geojsonsf`
+
+.image-20[ ![googleway](images/googleway.png) ]
+.image-20[ ![geojsonsf](images/geojsonsf.png) ]
+.image-20[ ![googlePolylines](images/googlepolylines.png) ]
 
 ]
 .pull-right[
-
+.center[
 .image-50[![soph](images/soph.jpg)]
-]
+]]
 
 ---
 
@@ -148,7 +149,7 @@ background-size: contain
 
 
 ???
-This is what we often think the R ecosystem looks like - a lone analyst, using their own setup, with their own environment with their own data sets. Maybe those files are local, or stored in a database, or scraped off the web somwhere (using the analysts own API keys)
+This is what we often think the R ecosystem looks like - a lone analyst, using their own setup, with their own environment with their own data sets. Maybe those files are local, or stored in a database, or scraped off the web somewhere (using the analysts own API keys)
 
 
 ---
@@ -218,7 +219,7 @@ class: center, middle
 .pull-right[.roomy[
 **Analyst** data scientist wrangles data, builds models and designs reports to answer business questions.
 
-**Builder** data scientist uses programming and development skills to prepare machine learning models/algorthms to run **in production**, usually for someone else
+**Builder** data scientist uses programming and development skills to prepare machine learning models/algorithms to run **in production**, usually for someone else
 ]]
  
 ???
@@ -249,7 +250,7 @@ Many data scientists I know (at least those working with R) fall on the analyst 
 
 * **Code management** &amp; versions (Github)
 
-* **Master Data Management** (MariaDB, MongoDB, S3 file storage)
+* **Master Data Management** (MariaDB, MongoDB, S3 file storage, python, bash)
 
 * **Teams &amp; Projects** (Slack, Trello, Clubhouse, github projects/wiki)
 
@@ -271,7 +272,7 @@ background-position: center bottom
 
 Docker makes it easier to move code, archive code, run multiple copies of codes, or to archive a specific version of an analysis.
 
-Instead of sending an individual R script, you bundle together all the scripts, libraries, settings you use into a single 'app' container.  This is easy to use and will run the same on any platform - your code won't care if it's on mac, windows or linux. It won't care whether its on your carefully curated analysis machine, or chucked on a cloud server you started 5 minutes ago.
+Instead of sending an individual R script, you bundle together all the scripts, libraries, settings you use into a single 'app' container.  This is easy to use and will run the same on any platform - your code won't care if it's on Mac, windows or Linux. It won't care whether its on your carefully curated analysis machine, or chucked on a cloud server you started 5 minutes ago.
 
 As an example (and I will show you this later if there is time) when I first set up a cloud server for rstudio and shiny, it took my hours of pouring through tutorials, settings, installing libraries - realising I needed linux libraries, installing them etc.  Last week I had to set up a demonstration R studio server for a client and it took five minutes from logging into AWS through to having an R studio server instance running in my browser window.
 
@@ -292,26 +293,26 @@ Enough of the sales pitch - lets get under the hood and see how it works
 
 .pull-left[
 
-## Container
+## Virtual machine
 
-![dock1](images/docker_doc.png)
+![dock1](images/docker_doc_vm.png)
 ]
 
 .pull-right[
 
-## Virtual machine
+## Container
 
-![dockvm](images/docker_doc_vm.png)
+![dockvm](images/docker_doc.png)
 ]
 
 
 ???
 
-This is th offical image from Docker docs and I include it in case some of you have worked with Virtual machines before
+This is t official image from Docker docs and I include it in case some of you have worked with Virtual machines before
 
 Some of you will have used virtual machines (or heard of them).  
 We started with physical servers - you had to have everything share the same physical server and manually manage resources and libraries etc
-Then virtual machines are essentialy a machine within a machine - each has it's own OS, and virtual versions of drivers etc.  
+Then virtual machines are essential a machine within a machine - each has it's own OS, and virtual versions of drivers etc.  
 
 Docker is a much more lightweight version of a virtual machine.  It uses the existing hardware and kernel (the core codes of your operating system) and overlays libraries, apps, environment variables within it's own micro environment.
 
@@ -322,8 +323,6 @@ So it may feel like you have just logged into an ubuntu linux server, but it's u
 class: inverse, middle, center
 
 # Some definitions
-
-
 
 
 ---
@@ -430,7 +429,7 @@ https://docs.docker.com/install/
 
 This site has instructions to allow users access to Docker without sudo: https://docs.docker.com/install/linux/linux-postinstall/
 
-**BUT** This allows anyone in the `Docker` group un-password-protected and unlogged root privleges.  
+**BUT** This allows anyone in the `Docker` group un-password-protected and unlogged root priviledges.  
 
 **So** Read this article and if you get what it's saying, you can follow their advice.  If it is not clear, just leave the sudo in place.
 http://www.projectatomic.io/blog/2015/08/why-we-dont-let-non-root-users-run-docker-in-centos-fedora-or-rhel/
@@ -469,7 +468,7 @@ docker container ls -aq
 
 ???
 
-reiterate the difference bewteen image and container
+reiterate the difference between image and container
 
 
 
@@ -489,10 +488,9 @@ docker run hello-world
 background-image: url("images/architecture.svg")
 background-size: contain
 
-
 ???
 
-Right....but how does this container thing work?
+Show what's happening at each step of the hello-world
 
 ---
 # Definitions
@@ -567,6 +565,7 @@ class: inverse, center, middle
 
 ???
 
+* Show r-ver dockerfile - count layers
 Note the layered nature of the images
 Note the sizes and number of layers as you increase
 
@@ -667,8 +666,15 @@ see also the docker reference:
 
 ???
 
-If you are comfortable with github, feel free to fork your own version and clone
-Otherwise, just download the zip or I've got copies on usb
+If you are comfortable with github, feel free to fork your own version and clone.  Otherwise, just download the zip or I've got copies on usb
+
+Walkthrough git repo:
+
+* Analysis folder
+* Requirements
+* data folder
+* Dockerfile
+
 
 If people have ubuntu 18.06 and have installed docker using snap - then the build will fail.  Quick fix is:
 
@@ -696,9 +702,15 @@ Other things to try:
 * `docker stop` your container and use `docker ps` to confirm it's gone.
 * Run two versions of the container at the same time.  What runtime settings need to change?
 * Change the `requirements.R` (add/remove a library) and rebuild.  Does it rebuild all the layers? Why?
-
 ]
+
 ---
+class: inverse, middle, center
+
+# Questions? Issues?
+
+---
+
 
 # A small example of security
 
@@ -737,7 +749,14 @@ Show:
 
 ---
 
+# Can't I just do this from `R`?
 
+Yes - the `docker` package uses `reticulate` and `python` to let you control containers from within R.
+
+[https://cran.r-project.org/web/packages/docker/index.html](https://cran.r-project.org/web/packages/docker/index.html)
+[https://cran.r-project.org/web/packages/docker/vignettes/Getting_Started_with_Docker.html](https://cran.r-project.org/web/packages/docker/vignettes/Getting_Started_with_Docker.html)
+
+---
 # One last demo 
 
 Getting started in the cloud..
