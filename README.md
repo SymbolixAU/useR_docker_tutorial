@@ -43,4 +43,4 @@ This is useful:
 
 * when you have developed an automated script and need to run 100 copies of it at once to process a entire data set.
 * If you must transfer an application that relies on specific environments that the user may or may not have (e.g. specific C++ or GDAL spatial frameworks)
-* If you have to deploy a shiny application to a Windows Server (that doesn't
+* If you have to deploy a shiny application to a Windows Server (that doesn't have shiny server)
