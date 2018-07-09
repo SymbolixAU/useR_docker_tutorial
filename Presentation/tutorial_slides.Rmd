@@ -465,6 +465,12 @@ docker container ls -aq
 
 .footnote[[*] linux users will need `sudo` in front of all commands ]
 
+???
+
+reiterate the difference bewteen image and container
+
+
+
 ---
 
 # Our first container
@@ -636,6 +642,8 @@ https://github.com/SymbolixAU/r_docker_hello
 
 * fork, clone or download zip
 * change directory to repository
+
+--
 
 ```{r, engine = 'bash', eval=FALSE}
 # BUILD! 

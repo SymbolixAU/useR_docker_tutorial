@@ -4,7 +4,6 @@
     <title>Production-ready R</title>
     <meta charset="utf-8">
     <meta name="author" content="Elizabeth Stark (Symbolix)" />
-    <script src="libs/kePrint/kePrint.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="user.css" type="text/css" />
   </head>
@@ -104,33 +103,31 @@ background-size: contain
 # Our R journey
 
 &lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; When &lt;/th&gt;
+&lt;thead&gt;&lt;tr&gt;
+&lt;th style="text-align:left;"&gt; When &lt;/th&gt;
    &lt;th style="text-align:left;"&gt; Analysis &lt;/th&gt;
    &lt;th style="text-align:left;"&gt; Packaged.by &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
+  &lt;/tr&gt;&lt;/thead&gt;
 &lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;width: 33%; "&gt; The deep past &lt;/td&gt;
-   &lt;td style="text-align:left;width: 33%; "&gt; R or excel &lt;/td&gt;
-   &lt;td style="text-align:left;width: 33%; "&gt; Word reports &lt;/td&gt;
+&lt;tr&gt;
+&lt;td style="text-align:left;width: 33%; "&gt; The deep past &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; R or excel &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Word reports &lt;/td&gt;
   &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;width: 33%; "&gt; Many years ago &lt;/td&gt;
+&lt;tr&gt;
+&lt;td style="text-align:left;"&gt; Many years ago &lt;/td&gt;
    &lt;td style="text-align:left;width: 33%; "&gt; R scripts &lt;/td&gt;
-   &lt;td style="text-align:left;width: 33%; "&gt; Word reports &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Word reports &lt;/td&gt;
   &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;width: 33%; "&gt; A few years ago &lt;/td&gt;
-   &lt;td style="text-align:left;width: 33%; "&gt; R scripts + knitr &lt;/td&gt;
+&lt;tr&gt;
+&lt;td style="text-align:left;"&gt; A few years ago &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; R scripts + knitr &lt;/td&gt;
    &lt;td style="text-align:left;width: 33%; "&gt; Knitr + shiny &lt;/td&gt;
   &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;width: 33%; "&gt; Now &lt;/td&gt;
-   &lt;td style="text-align:left;width: 33%; "&gt; R - scripts, packages, apps, bookdown, wrappers &lt;/td&gt;
-   &lt;td style="text-align:left;width: 33%; "&gt; R bookdown, shiny, xarigan, ... &lt;/td&gt;
+&lt;tr&gt;
+&lt;td style="text-align:left;width: 33%; "&gt; Now &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; R - scripts, packages, apps, bookdown, wrappers &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; R bookdown, shiny, xarigan, ... &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -470,6 +467,12 @@ docker container ls -aq
 
 .footnote[[*] linux users will need `sudo` in front of all commands ]
 
+???
+
+reiterate the difference bewteen image and container
+
+
+
 ---
 
 # Our first container
@@ -641,6 +644,8 @@ https://github.com/SymbolixAU/r_docker_hello
 
 * fork, clone or download zip
 * change directory to repository
+
+--
 
 
 ```bash
