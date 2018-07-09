@@ -569,16 +569,6 @@ Note the sizes and number of layers as you increase
 
 ---
 
-# Rocker images
-
-.image90[ ![rocker_layers](images/rocker_layers_drawing.png)]
-
-
-* Containers can be stacked
-* Each command within each container forms its own layer
-
----
-
 # Inside rocker/rstudio Dockerfile
 
 [https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/Dockerfile](https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/Dockerfile)
@@ -589,6 +579,18 @@ Note the sizes and number of layers as you increase
 Note FROM the base R image
 Sets ARGUMENT
 RUNs a whole heap of linux commands
+
+---
+
+# Rocker images
+
+.image90[ ![rocker_layers](images/rocker_layers_drawing.png)]
+
+
+* Containers can be stacked
+* Each command within each container forms its own layer
+
+
 
 
 ---
@@ -726,7 +728,7 @@ An example (if you have an google maps API key!)
 
 ```{r engine='bash', eval=FALSE}
 # navigate to r_docker_hello repo
-git branch googleway
+git checkout googleway
 
 sudo docker build --rm --force-rm -t symbolix/shiny_demo .
 sudo docker run -d --rm -p 23838:3838 --name googlewayplay symbolix/shiny_demo
@@ -750,6 +752,7 @@ Show:
 Yes - the `docker` package uses `reticulate` and `python` to let you control containers from within R.
 
 [https://cran.r-project.org/web/packages/docker/index.html](https://cran.r-project.org/web/packages/docker/index.html)
+
 [https://cran.r-project.org/web/packages/docker/vignettes/Getting_Started_with_Docker.html](https://cran.r-project.org/web/packages/docker/vignettes/Getting_Started_with_Docker.html)
 
 ---

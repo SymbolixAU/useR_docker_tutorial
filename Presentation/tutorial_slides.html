@@ -4,6 +4,7 @@
     <title>Production-ready R</title>
     <meta charset="utf-8">
     <meta name="author" content="Elizabeth Stark (Symbolix)" />
+    <script src="libs/kePrint/kePrint.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="user.css" type="text/css" />
   </head>
@@ -104,31 +105,33 @@ background-size: contain
 # Our R journey
 
 &lt;table&gt;
-&lt;thead&gt;&lt;tr&gt;
-&lt;th style="text-align:left;"&gt; When &lt;/th&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; When &lt;/th&gt;
    &lt;th style="text-align:left;"&gt; Analysis &lt;/th&gt;
    &lt;th style="text-align:left;"&gt; Packaged.by &lt;/th&gt;
-  &lt;/tr&gt;&lt;/thead&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
 &lt;tbody&gt;
-&lt;tr&gt;
-&lt;td style="text-align:left;width: 33%; "&gt; The deep past &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; R or excel &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Word reports &lt;/td&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 33%; "&gt; The deep past &lt;/td&gt;
+   &lt;td style="text-align:left;width: 33%; "&gt; R or excel &lt;/td&gt;
+   &lt;td style="text-align:left;width: 33%; "&gt; Word reports &lt;/td&gt;
   &lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style="text-align:left;"&gt; Many years ago &lt;/td&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 33%; "&gt; Many years ago &lt;/td&gt;
    &lt;td style="text-align:left;width: 33%; "&gt; R scripts &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Word reports &lt;/td&gt;
+   &lt;td style="text-align:left;width: 33%; "&gt; Word reports &lt;/td&gt;
   &lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style="text-align:left;"&gt; A few years ago &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; R scripts + knitr &lt;/td&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 33%; "&gt; A few years ago &lt;/td&gt;
+   &lt;td style="text-align:left;width: 33%; "&gt; R scripts + knitr &lt;/td&gt;
    &lt;td style="text-align:left;width: 33%; "&gt; Knitr + shiny &lt;/td&gt;
   &lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style="text-align:left;width: 33%; "&gt; Now &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; R - scripts, packages, apps, bookdown, wrappers &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; R bookdown, shiny, xarigan, ... &lt;/td&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 33%; "&gt; Now &lt;/td&gt;
+   &lt;td style="text-align:left;width: 33%; "&gt; R - scripts, packages, apps, bookdown, wrappers &lt;/td&gt;
+   &lt;td style="text-align:left;width: 33%; "&gt; R bookdown, shiny, xarigan, ... &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -571,16 +574,6 @@ Note the sizes and number of layers as you increase
 
 ---
 
-# Rocker images
-
-.image90[ ![rocker_layers](images/rocker_layers_drawing.png)]
-
-
-* Containers can be stacked
-* Each command within each container forms its own layer
-
----
-
 # Inside rocker/rstudio Dockerfile
 
 [https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/Dockerfile](https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/Dockerfile)
@@ -591,6 +584,18 @@ Note the sizes and number of layers as you increase
 Note FROM the base R image
 Sets ARGUMENT
 RUNs a whole heap of linux commands
+
+---
+
+# Rocker images
+
+.image90[ ![rocker_layers](images/rocker_layers_drawing.png)]
+
+
+* Containers can be stacked
+* Each command within each container forms its own layer
+
+
 
 
 ---
@@ -730,7 +735,7 @@ An example (if you have an google maps API key!)
 
 ```bash
 # navigate to r_docker_hello repo
-git branch googleway
+git checkout googleway
 
 sudo docker build --rm --force-rm -t symbolix/shiny_demo .
 sudo docker run -d --rm -p 23838:3838 --name googlewayplay symbolix/shiny_demo
@@ -754,6 +759,7 @@ Show:
 Yes - the `docker` package uses `reticulate` and `python` to let you control containers from within R.
 
 [https://cran.r-project.org/web/packages/docker/index.html](https://cran.r-project.org/web/packages/docker/index.html)
+
 [https://cran.r-project.org/web/packages/docker/vignettes/Getting_Started_with_Docker.html](https://cran.r-project.org/web/packages/docker/vignettes/Getting_Started_with_Docker.html)
 
 ---
@@ -813,23 +819,12 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   d.head.appendChild(s);
 })();</script>
 
-<script>
-(function() {
-  var i, text, code, codes = document.getElementsByTagName('code');
-  for (i = 0; i < codes.length;) {
-    code = codes[i];
-    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
-      text = code.textContent;
-      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
-          /^\$\$(.|\s)+\$\$$/.test(text) ||
-          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
-        code.outerHTML = code.innerHTML;  // remove <code></code>
-        continue;
-      }
-    }
-    i++;
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
   }
-})();
+});
 </script>
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
