@@ -1,0 +1,793 @@
+---
+title: "Production-ready R"
+subtitle: "Getting started with R and Docker"
+author: "Elizabeth Stark (Symbolix)"
+date: "MelBURN - Melbourne R users group Aug 2018"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    #css: ["default", "default-fonts", user.css"]
+    css: ["xaringan-themer.css", "user.css"]
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(knitr)
+library(kableExtra)
+```
+
+```{r theme, include = FALSE}
+# see https://github.com/gadenbuie/xaringanthemer
+# and https://clrs.cc/ for beautiful colours
+
+library(xaringanthemer)
+duo_accent(
+  primary_color  = "#001f3f",
+  secondary_color = "#3D9970",
+  text_bold_color = "#3D9970", #"#01FF70",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Droid Mono"),
+  table_row_even_background_color = lighten_color("#3D9970", 0.9)
+)
+
+```
+layout: true
+
+.footer[Elizabeth Stark  &emsp;&emsp;&emsp; @SymbolixAU ; www.symbolix.com.au  &emsp;&emsp;&emsp; https://github.com/SymbolixAU/useR_docker_tutorial.git]
+
+<!-- <div class="my-footer"><span>xaringan power     -->
+<!-- &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; -->
+<!-- &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; -->
+<!-- yolo</span></div>  -->
+
+---
+
+
+# Play along at home
+
+Useful to git clone/fork or download:
+
+https://github.com/SymbolixAU/r_docker_hello.git        (the examples)
+https://github.com/SymbolixAU/useR_docker_tutorial.git  (these slides)
+
+
+.footnote[[*] disclaimer - there is only a little bit of actual `R` today]
+
+---
+
+background-image: url("images/what-am-i-doing-here.jpg")
+background-size: contain
+
+
+???
+
+* I started my dev life building BASIC programs to spit out endless loops of insults aimed at my brother
+* I tried to be an archeologist (no patience)
+* I discovered that maths was a language and `maths+computers+stars == astrophysics` so that's what I did
+* I discovered that acedemia was not for me
+* I got to work as a communicator - telling stories to teach kids about maths+physics
+
+* I own a company that uses maths and computers to solve problems.  
+
+* 
+
+---
+
+# Symbolix's story
+
+
+.pull-left[
+
+* Data science / augmented intelligence
+    + Analysis-as-a-service + 
+    + tools for other teams
+  
+* We work in
+  + Transport & urban networks
+  + Environmental management
+  + Better organisations
+
+* R and open source
+
+.image-20[ ![googleway](images/googleway.png) ]
+.image-20[ ![geojsonsf](images/geojsonsf.png) ]
+.image-20[ ![googlePolylines](images/googlepolylines.png) ]
+
+]
+.pull-right[
+.center[
+.image-50[![soph](images/soph.jpg)]
+]]
+
+---
+
+# Our R journey
+
+```{r, echo = FALSE}
+
+df <- data.frame(When = c("The deep past", "Many years ago", "A few years ago", "Now"),
+                 Analysis = c("R or excel", "R scripts", "R scripts + knitr",
+                              "R - scripts, packages, apps, bookdown, wrappers"),
+                 `Packaged by` = c("Word reports", "Word reports", "Knitr + shiny",
+                                 "R bookdown, shiny, xarigan, ...")
+                              )
+
+    knitr::kable(df, format = "html", align = "l" ) %>% 
+        kableExtra::column_spec(1:3, width = "33%")
+
+
+```
+
+
+---
+class: inverse, center, middle
+
+
+# A typical analyst's story
+
+
+
+---
+background-image: url("images/Recosystem1.jpg")
+background-size: contain
+
+
+
+???
+This is what we often think the R ecosystem looks like - a lone analyst, using their own setup, with their own environment with their own data sets. Maybe those files are local, or stored in a database, or scraped off the web somewhere (using the analysts own API keys)
+
+
+---
+background-image: url("images/Recosystem2.jpg")
+background-size: contain
+???
+And they are working on ad hoc analysis in that environment
+
+---
+
+background-image: url("images/Recosystem3.jpg")
+background-size: contain
+
+???
+But it's more complicated - you have your own setup, and you want to share the results with others. Maybe publish to a report or share a dashboard, or publish a shiny.
+
+---
+
+background-image: url("images/Recosystem4.jpg")
+background-size: contain
+
+???
+But it doesn't end there - clients now are more demanding and they have questions:
+
+* That looks great, can you pull out these key things and make that a dashboard for the executives?
+* Can I get three datasets, each month, with slightly different input parameters?
+* (4 years later) Can you rerun that exact analysis, and then do a comparison with this new data?
+
+Or maybe you are working with other analysts in a team and need to share your code so they can help develop the package or fix a bug
+
+---
+
+# Some difficult things
+
+Sharing:
+* Your user might have **different package or R versions** installed
+* Your scripts might need **secret keys** to run 
+* Some packages require **non-R packages** in the background environment<sup>*</sup>
+
+On your own
+* You might need to deploy **multiple runs** of the same script with different inputs
+* You might want to try out some **development ideas**
+* You might need to rerun the code six months later and **reproduce** the output
+
+
+.footnote[[*] e.g. `sf` needs GEOS/GDAL and keras/tensorflow require python libs]
+
+---
+
+background-image: url("images/phd011406s.gif")
+background-size: contain
+
+---
+
+class: center, middle
+
+# Being an **analyst** (data scientist) is not enough to manage this
+
+
+---
+
+# Two types of data scientist
+
+.pull-left[
+	.image-90[ ![bear](images/bear_devops.jpg)]
+]
+.pull-right[.roomy[
+**Analyst** data scientist wrangles data, builds models and designs reports to answer business questions.
+
+**Builder** data scientist uses programming and development skills to prepare machine learning models/algorithms to run **in production**, usually for someone else
+]]
+ 
+???
+
+Many data scientists I know (at least those working with R) fall on the analyst end of the spectrum
+
+---
+
+## You can't be a unicorn on your own
+
+.image90[![devopsdatasci](images/devopsdatasci.png)]
+
+.footnote[https://towardsdatascience.com/devops-for-data-scientists-taming-the-unicorn-6410843990de]
+
+---
+
+# Developer tools for R users
+
+* Basics (R projects)
+
+--
+
+* **Packages** (`Roxygen`)
+
+* **Unit tests** (e.g. `testthat`)
+
+--
+
+* **Code management** & versions (Github)
+
+* **Master Data Management** (MariaDB, MongoDB, S3 file storage, python, bash)
+
+* **Teams & Projects** (Slack, Trello, Clubhouse, github projects/wiki)
+
+--
+
+### **Deployment & Code Bundles**.....
+
+
+
+---
+
+background-image: url("images/dockerEnv.jpg")
+background-size: contain
+background-position: center bottom
+
+# Bundling code with Docker
+
+???
+
+Docker makes it easier to move code, archive code, run multiple copies of codes, or to archive a specific version of an analysis.
+
+Instead of sending an individual R script, you bundle together all the scripts, libraries, settings you use into a single 'app' container.  This is easy to use and will run the same on any platform - your code won't care if it's on Mac, windows or Linux. It won't care whether its on your carefully curated analysis machine, or chucked on a cloud server you started 5 minutes ago.
+
+As an example (and I will show you this later if there is time) when I first set up a cloud server for rstudio and shiny, it took my hours of pouring through tutorials, settings, installing libraries - realising I needed linux libraries, installing them etc.  Last week I had to set up a demonstration R studio server for a client and it took five minutes from logging into AWS through to having an R studio server instance running in my browser window.
+
+
+---
+class: center, inverse
+background-image: url("images/laurel-docker-containers.png")
+background-size: contain
+background-position: 50% 90%
+
+# What is Docker?
+
+???
+
+Enough of the sales pitch - lets get under the hood and see how it works
+
+---
+
+.pull-left[
+
+## Virtual machine
+
+![dock1](images/docker_doc_vm.png)
+]
+
+.pull-right[
+
+## Container
+
+![dockvm](images/docker_doc.png)
+]
+
+
+???
+
+This is t official image from Docker docs and I include it in case some of you have worked with Virtual machines before
+
+Some of you will have used virtual machines (or heard of them).  
+We started with physical servers - you had to have everything share the same physical server and manually manage resources and libraries etc
+Then virtual machines are essential a machine within a machine - each has it's own OS, and virtual versions of drivers etc.  
+
+Docker is a much more lightweight version of a virtual machine.  It uses the existing hardware and kernel (the core codes of your operating system) and overlays libraries, apps, environment variables within it's own micro environment.
+
+So it may feel like you have just logged into an ubuntu linux server, but it's using the Docker service to use the inner core drivers of your Mac or windows OS.  
+
+---
+
+class: inverse, middle, center
+
+# Some definitions
+
+
+---
+class: middle
+
+.pull-left[
+	.image-90[![docker1](images/dockerwflow1.jpg)]
+]
+
+.pull-right[.roomy[
+
+.fade[A Dockerfile is the control script that compiles everything into the image.]
+
+An **image** is a self contained, executable bundle of codes, settings, environment variables that you use to run the code.
+
+.fade[A container is a single running instance of the image bundle.]
+
+]]
+
+
+???
+
+Think of it as an **app** executable, or a **class** definition (for the "B" types)
+ 
+---
+class: middle
+
+.pull-left[
+	.image-90[![docker2](images/dockerwflow2.jpg)]
+]
+
+.pull-right[.roomy[
+
+.fade[A Dockerfile is the control script that compiles everything into the image.
+
+An image is a self contained, executable bundle of codes, settings, environment variables that you use to run the code.
+]
+
+A **container** is a single running instance of the image bundle.
+ 	
+
+]]
+
+???
+
+Think of it as a running **app** executable, or an instance of a **class**
+
+---
+class: middle
+
+.pull-left[
+	.image-90[![docker3](images/dockerwflow3.jpg)]
+]
+
+.pull-right[.roomy[
+
+A **Dockerfile** is the control script that compiles everything into the image.
+ 
+
+.fade[An image is a self contained, executable bundle of codes, settings, environment variables that you use to run the code.
+
+
+A **container** is a single running instance of the image bundle.]
+
+]]
+
+???
+
+Think of it like a **Makefile** 
+
+
+---
+
+class: center
+
+# Containers are **ephemeral**
+
+![ephemeral](images/ephemeral1.gif)
+
+---
+
+class: inverse, center, middle
+
+# Hello world!
+
+
+---
+# Install Docker
+
+
+.image90[
+[ 
+![installdocker](images/docker_home_page.png)
+](
+https://docs.docker.com/install/
+)
+]
+
+---
+
+# Postinstall for linux
+
+**NOTE**  By default Docker is run by the `root` user so you need `sudo` for every command.  
+
+This site has instructions to allow users access to Docker without sudo: https://docs.docker.com/install/linux/linux-postinstall/
+
+**BUT** This allows anyone in the `Docker` group un-password-protected and unlogged root priviledges.  
+
+**So** Read this article and if you get what it's saying, you can follow their advice.  If it is not clear, just leave the sudo in place.
+http://www.projectatomic.io/blog/2015/08/why-we-dont-let-non-root-users-run-docker-in-centos-fedora-or-rhel/
+
+
+---
+
+# Basic docker commands<sup>*</sup>
+
+
+```{r, engine='bash', eval=FALSE}
+## List Docker CLI commands
+docker
+docker container --help
+
+## Display Docker version and info
+docker --version
+docker version
+docker info
+
+## Execute Docker image
+docker run hello-world
+
+## List Docker images
+docker image ls
+
+## List Docker containers (running, all, all in quiet mode)
+docker container ls
+docker container ls --all
+docker container ls -aq
+
+```
+
+.footnote[[*] linux users will need `sudo` in front of all commands ]
+
+???
+
+reiterate the difference between image and container
+
+
+
+---
+
+# Our first container
+
+```
+docker run hello-world
+```
+
+![helloworld](images/docker_hello_world.png)
+
+
+---
+
+background-image: url("images/architecture.svg")
+background-size: contain
+
+???
+
+Show what's happening at each step of the hello-world
+
+---
+# Definitions
+
+**Registry** Repository of Docker images
+
+**Docker Hub** Docker's own registry
+
+**tag** Images have tags to indicate specific versions
+
+--
+
+
+**docker pull** Get latest version from repository
+
+**docker build** Compile image into container
+
+**docker run** Run the container
+
+---
+
+# Docker Hub
+
+.image90[[
+![dockerhub](images/docker_hub_home.png)
+](https://hub.docker.com/explore)]
+
+
+---
+
+class: inverse, center
+
+# The Dockerfile
+
+
+![helloworld](images/docker_hello_world.png)
+
+
+???
+
+We are going to start building very soon but let's start by looking at some Dockerfiles and how the file systems are set up
+
+
+
+---
+
+# hello-world
+
+.image90[ ![helloworldfiles](images/docker_helloworld_github.png)]
+
+---
+# hello-world
+
+.image90[ ![helloworldfiles](images/docker_helloworld_dockerfile.png)]
+
+---
+
+class: inverse, center, middle
+
+# The R bit!
+
+[https://hub.docker.com/u/rocker/](https://hub.docker.com/u/rocker/)
+
+---
+
+
+# Rocker images
+
+[https://hub.docker.com/r/rocker/r-ver/](https://hub.docker.com/r/rocker/r-ver/)
+
+.image90[ ![rocker_layers](images/rocker_layers.png)]
+
+???
+
+* Show r-ver dockerfile - count layers
+Note the layered nature of the images
+Note the sizes and number of layers as you increase
+
+---
+
+# Inside rocker/rstudio Dockerfile
+
+[https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/Dockerfile](https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/Dockerfile)
+
+
+???
+
+Note FROM the base R image
+Sets ARGUMENT
+RUNs a whole heap of linux commands
+
+---
+
+# Rocker images
+
+.image90[ ![rocker_layers](images/rocker_layers_drawing.png)]
+
+
+* Containers can be stacked
+* Each command within each container forms its own layer
+
+
+
+
+---
+
+# Build your own
+
+Dockerfiles are used to **build** up an image. 
+
+We start **FROM** a base image. 
+
+Then we **COPY** files or **RUN** extra commands or set specific **ENV** variables. 
+
+The Dockerfile lives in the top of the project and should be called Dockerfile with a **capital D**.
+
+The `build` command includes **all files / folders** underneath your working directory, recursively in the **image build context**
+
+
+---
+# Build context
+
+.pull-left[
+ 
+![buildcontext](images/smallimages.gif)
+
+]
+
+.pull-right[
+
+The `build` command includes **all files / folders** underneath your working directory, recursively in the image build context
+
+Use `.dockerignore` file to exclude unnecessary files
+
+Limit installed packages to necessary ones too
+
+**Larger images == slower build, slower push and sad life** ☹
+
+]
+
+---
+class: center
+
+# Containers are **ephemeral**
+
+![ephemeral](images/ephemeral2.gif)
+
+---
+# Let's build
+
+https://github.com/SymbolixAU/r_docker_hello
+
+* fork, clone or download zip
+* change directory to repository
+
+--
+
+```{r, engine = 'bash', eval=FALSE}
+# BUILD! 
+docker build --rm --force-rm -t rstudio/hello-world .
+
+# RUN!
+sudo docker run -d --rm -p 28787:8787 --name hello-world rstudio/hello-world
+```
+
+Navigate to `http://127.0.0.1:28787`  and behold the beauty !!
+
+
+.small[
+see also the docker reference:
+[https://docs.docker.com/engine/reference/commandline/](https://docs.docker.com/engine/reference/commandline/)
+]
+
+
+???
+
+If you are comfortable with github, feel free to fork your own version and clone.  Otherwise, just download the zip or I've got copies on usb
+
+Walkthrough git repo:
+
+* Analysis folder
+* Requirements
+* data folder
+* Dockerfile
+
+
+If people have ubuntu 18.06 and have installed docker using snap - then the build will fail.  Quick fix is:
+
+sudo snap remove docker
+sudo snap install docker --devmode
+
+
+---
+# Have a play
+
+.small[Update `run` command:
+
+* Pass environment variables (-e) to 
+    + give you permissions to save changes to `hello-world.R`
+    + change `username` and `password` to something more secure
+    
+* Save your data
+    + Save the output data back to your laptop by mounting directory (-V)
+
+* Set yourself up so you can make changes in hello.world.R on your local directory and immediately have them show up and work in the container Rstudio.  When might this be useful?
+
+Other things to try:
+
+* Can you set the `username` and `password` in the Dockerfile instead of the run command?
+* `docker stop` your container and use `docker ps` to confirm it's gone.
+* Run two versions of the container at the same time.  What runtime settings need to change?
+* Change the `requirements.R` (add/remove a library) and rebuild.  Does it rebuild all the layers? Why?
+]
+
+---
+class: inverse, middle, center
+
+# Questions? Issues?
+
+---
+
+
+# A small example of security
+
+Sometimes we want to pass R environment variables to the container **but**
+
+Variables set with **ENV** and **-e** are linux environment variables
+
+For security reasons, you often can't access these from rstudio/shiny
+
+Instead:
+
+* Include `.Renviron` file in build context
+* Use `.gitignore` so you don't share your keys online.
+
+An example (if you have an google maps API key!)
+
+```{r engine='bash', eval=FALSE}
+# navigate to r_docker_hello repo
+git checkout googleway
+
+sudo docker build --rm --force-rm -t symbolix/shiny_demo .
+sudo docker run -d --rm -p 23838:3838 --name googlewayplay symbolix/shiny_demo
+
+```
+
+???
+
+Jump across to R demo.  
+Show:
+
+* app
+* .Renviron
+* .gitignore
+* Dockerfile
+
+---
+
+# Can't I just do this from `R`?
+
+Yes - the `docker` package uses `reticulate` and `python` to let you control containers from within R.
+
+[https://cran.r-project.org/web/packages/docker/index.html](https://cran.r-project.org/web/packages/docker/index.html)
+
+[https://cran.r-project.org/web/packages/docker/vignettes/Getting_Started_with_Docker.html](https://cran.r-project.org/web/packages/docker/vignettes/Getting_Started_with_Docker.html)
+
+---
+# One last demo 
+
+Getting started in the cloud..
+
+[https://console.aws.amazon.com/console/home](https://console.aws.amazon.com/console/home)
+
+---
+
+class: center, middle, inverse
+
+# Some other things to try
+
+---
+
+## Open docker play/questions time:
+
+Feel free to:
+
+* Continue tinkering with our R-docker repo and questions above
+
+* Extend our example to set up a container suited to their particular interests/favourite libraries (choose good rocker image, add requirements, build....)
+
+* Extend our example into a set up to produce three related datasets at the same time, with different inputs.  How will you set up your output folders? How will you configure the required differences (e.g. R environment variable, log into each one separately??)
+
+* Have a walk in the sun 
+
+---
+
+class: inverse, center
+
+# Thanks for listening
+
+https://github.com/SymbolixAU/
+
+www.symbolix.com.au
+
+@symbolixAU (twitter, github, SO)
+
+![bye](images/bye.gif)
+
+
