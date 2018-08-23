@@ -1,52 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Production-ready R</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Elizabeth Stark (Symbolix)" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="user.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Production-ready R
+## Getting started with R and Docker
+### Elizabeth Stark (Symbolix)
+### MelBURN - Melbourne R users group Aug 2018
+
 ---
-title: "Production-ready R"
-subtitle: "Getting started with R and Docker"
-author: "Elizabeth Stark (Symbolix)"
-date: "MelBURN - Melbourne R users group Aug 2018"
-output:
-  xaringan::moon_reader:
-    lib_dir: libs
-    #css: ["default", "default-fonts", user.css"]
-    css: ["xaringan-themer.css", "user.css"]
-    nature:
-      highlightStyle: github
-      highlightLines: true
-      countIncrementalSlides: false
-editor_options: 
-  chunk_output_type: console
----
 
 
-```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
-library(knitr)
-library(kableExtra)
-```
 
-```{r theme, include = FALSE}
-# see https://github.com/gadenbuie/xaringanthemer
-# and https://clrs.cc/ for beautiful colours
 
-library(xaringanthemer)
-duo_accent(
-  primary_color  = "#001f3f",
-  secondary_color = "#3D9970",
-  text_bold_color = "#3D9970", #"#01FF70",
-  header_font_google = google_font("Josefin Sans"),
-  text_font_google   = google_font("Montserrat", "300", "300i"),
-  code_font_google   = google_font("Droid Mono"),
-  table_row_even_background_color = lighten_color("#3D9970", 0.9)
-)
 
-```
+
 layout: true
 
-.footer[Elizabeth Stark  &emsp;&emsp;&emsp;&emsp; github.com/SymbolixAU/useR_docker_tutorial]
+.footer[Elizabeth Stark  &amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; github.com/SymbolixAU/useR_docker_tutorial]
 
-<!-- <div class="my-footer"><span>xaringan power     -->
-<!-- &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; -->
-<!-- &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; -->
-<!-- yolo</span></div>  -->
+&lt;!-- &lt;div class="my-footer"&gt;&lt;span&gt;xaringan power     --&gt;
+&lt;!-- &amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; --&gt;
+&lt;!-- &amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; --&gt;
+&lt;!-- yolo&lt;/span&gt;&lt;/div&gt;  --&gt;
 
 ---
 
@@ -161,7 +145,7 @@ Or maybe you are working with other analysts in a team and need to share your co
 Sharing:
 * **Different package or R versions** installed
 * Managing **secret keys** 
-* Some packages require **non-R packages** in the background environment<sup>*</sup>
+* Some packages require **non-R packages** in the background environment&lt;sup&gt;*&lt;/sup&gt;
 
 On your own - you might want to:
 * Deploy **multiple runs** of the same script with different inputs
@@ -212,10 +196,10 @@ Developer tools for R users
 * Basics (R projects)
 * **Packages** (`Roxygen`)
 * **Unit tests** (e.g. `testthat`)
-* **Code management** & versions (Github)
+* **Code management** &amp; versions (Github)
 * **Master Data Management** (MariaDB, MongoDB, S3 file storage, python, bash)
-* **Teams & Projects** (Slack, Trello, Clubhouse, github projects/wiki)
-* **Deployment & Code Bundles**.....
+* **Teams &amp; Projects** (Slack, Trello, Clubhouse, github projects/wiki)
+* **Deployment &amp; Code Bundles**.....
 
 
 
@@ -391,10 +375,11 @@ https://docs.docker.com/install/
 
 ---
 
-# Basic docker commands<sup>*</sup>
+# Basic docker commands&lt;sup&gt;*&lt;/sup&gt;
 
 
-```{r, engine='bash', eval=FALSE}
+
+```bash
 ## List Docker CLI commands
 docker
 docker container --help
@@ -592,7 +577,8 @@ https://github.com/SymbolixAU/r_docker_hello
 
 --
 
-```{r, engine = 'bash', eval=FALSE}
+
+```bash
 # BUILD! 
 docker build --rm --force-rm -t melburn/rdemo .
 
@@ -636,5 +622,51 @@ https://github.com/SymbolixAU/
 www.symbolix.com.au  ;   @symbolixAU (twitter, github, SO)
 
 ![bye](images/bye.gif)
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
 
-
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
